@@ -44,6 +44,7 @@ public class NumericUpDown<T> : ContainerRuntime where T : struct, INumber<T>, I
 
     #region Private Fields
 
+    private string  _valueBeforeManualEdit;
     private T? _value;
     private T _minimum = T.MinValue;
     private T _maximum = T.MaxValue;
@@ -547,8 +548,6 @@ public class NumericUpDown<T> : ContainerRuntime where T : struct, INumber<T>, I
         AddChild(visual);
     }
 
-
-
     [MemberNotNull(nameof(SpinnerContainer))]
     private void CreateSpinnerContainer()
     {
@@ -690,6 +689,11 @@ public class NumericUpDown<T> : ContainerRuntime where T : struct, INumber<T>, I
     {
         if (args.Key == Keys.Enter)
         {
+            TextBox.IsFocused = false;
+        }
+        else if (args.Key == Keys.Escape)
+        {
+            TextBox.Text = _valueBeforeManualEdit;
             TextBox.IsFocused = false;
         }
     }
@@ -852,6 +856,7 @@ public class NumericUpDown<T> : ContainerRuntime where T : struct, INumber<T>, I
         if (currentTime - _lastClickTime <= DOUBLE_CLICK_TIME_MS)
         {
             // Double-click detected, enter editing mode
+            _valueBeforeManualEdit = TextBox.Text;
             _isEditing = true;
             TextBox.IsReadOnly = false;
             TextBox.IsFocused = true;
