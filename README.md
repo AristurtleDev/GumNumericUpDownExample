@@ -2,6 +2,8 @@
 
 A generic numeric input control for Gum UI framework with MonoGame, supporting any numeric type that implements `INumber<T>` and `IMinMaxValue<T>`.
 
+![Demo](demo.gif)
+
 ## Features
 
 ### Multiple Input Methods
