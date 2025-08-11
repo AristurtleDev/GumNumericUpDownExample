@@ -5,6 +5,7 @@ using System.Numerics;
 using Gum.Forms.Controls;
 using Gum.Forms.DefaultVisuals;
 using Gum.Wireframe;
+using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using MonoGameGum.Input;
@@ -541,9 +542,12 @@ public class NumericUpDown<T> : ContainerRuntime where T : struct, INumber<T>, I
         TextBox.Visual.Click += HandleTextBoxClick;
         TextBox.Visual.MouseWheelScroll += HandleTextBoxMouseWheelScroll;
         TextBox.Visual.Dragging += HandleTextboxDragging;
+        TextBox.KeyDown += HandleTextBoxKeyDown;
 
         AddChild(visual);
     }
+
+
 
     [MemberNotNull(nameof(SpinnerContainer))]
     private void CreateSpinnerContainer()
@@ -681,6 +685,14 @@ public class NumericUpDown<T> : ContainerRuntime where T : struct, INumber<T>, I
     #endregion
 
     #region Event Handler Methods
+
+    private void HandleTextBoxKeyDown(object? sender, KeyEventArgs args)
+    {
+        if (args.Key == Keys.Enter)
+        {
+            TextBox.IsFocused = false;
+        }
+    }
 
     private void OnTextBoxPreviewTextInput(object? sender, TextCompositionEventArgs args)
     {
@@ -850,7 +862,7 @@ public class NumericUpDown<T> : ContainerRuntime where T : struct, INumber<T>, I
             // Single click just focuses but doesn't enter edit mode
             if (!TextBox.IsFocused)
             {
-                TextBox.IsFocused = true; ;
+                TextBox.IsFocused = true;
             }
         }
 
